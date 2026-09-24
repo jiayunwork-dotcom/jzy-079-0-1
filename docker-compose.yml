@@ -1,0 +1,33 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    image: traceboard-backend:latest
+    environment:
+      # 子片段等待父片段的最长时间（秒）
+      ORPHAN_MAX_WAIT_SECONDS: "30"
+      DEPENDENCY_WINDOW_1H: "3600"
+      DEPENDENCY_WINDOW_24H: "86400"
+      GRAPH_REFRESH_INTERVAL_SECONDS: "10"
+    volumes:
+      - trace-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=2)"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./frontend
+    image: traceboard-frontend:latest
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  trace-data:

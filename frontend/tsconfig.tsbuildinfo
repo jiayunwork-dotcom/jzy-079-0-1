@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/api.ts","./src/main.tsx","./src/types.ts","./src/useEventSocket.ts","./src/components/DependencyGraph.tsx","./src/components/GraphView.tsx","./src/components/SearchPage.tsx","./src/components/SpanDetail.tsx","./src/components/TraceDetail.tsx","./src/components/Waterfall.tsx"],"version":"5.9.3"}
